@@ -1,0 +1,13 @@
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\bin\Debug\netcoreapp3.1\KlazzRelationShipFinder.exe
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\bin\Debug\netcoreapp3.1\KlazzRelationShipFinder.deps.json
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\bin\Debug\netcoreapp3.1\KlazzRelationShipFinder.runtimeconfig.json
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\bin\Debug\netcoreapp3.1\KlazzRelationShipFinder.runtimeconfig.dev.json
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\bin\Debug\netcoreapp3.1\KlazzRelationShipFinder.dll
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\bin\Debug\netcoreapp3.1\KlazzRelationShipFinder.pdb
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\obj\Debug\netcoreapp3.1\KlazzRelationShipFinder.AssemblyInfoInputs.cache
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\obj\Debug\netcoreapp3.1\KlazzRelationShipFinder.AssemblyInfo.cs
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\obj\Debug\netcoreapp3.1\KlazzRelationShipFinder.csproj.CoreCompileInputs.cache
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\obj\Debug\netcoreapp3.1\KlazzRelationShipFinder.dll
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\obj\Debug\netcoreapp3.1\KlazzRelationShipFinder.pdb
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\obj\Debug\netcoreapp3.1\KlazzRelationShipFinder.genruntimeconfig.cache
+H:\VSProgram\C#_Program\KlazzRelationShipFinder\obj\Debug\netcoreapp3.1\KlazzRelationShipFinder.csproj.AssemblyReference.cache

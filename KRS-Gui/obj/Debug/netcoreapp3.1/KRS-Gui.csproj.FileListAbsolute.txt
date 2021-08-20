@@ -1,0 +1,16 @@
+H:\VSProgram\C#_Program\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.exe
+H:\VSProgram\C#_Program\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.deps.json
+H:\VSProgram\C#_Program\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.runtimeconfig.json
+H:\VSProgram\C#_Program\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.runtimeconfig.dev.json
+H:\VSProgram\C#_Program\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.dll
+H:\VSProgram\C#_Program\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.pdb
+H:\VSProgram\C#_Program\KRS-Gui\obj\Debug\netcoreapp3.1\KRS_Gui.GuiForm.resources
+H:\VSProgram\C#_Program\KRS-Gui\obj\Debug\netcoreapp3.1\KRS_Gui.Properties.Resources.resources
+H:\VSProgram\C#_Program\KRS-Gui\obj\Debug\netcoreapp3.1\KRS-Gui.csproj.GenerateResource.cache
+H:\VSProgram\C#_Program\KRS-Gui\obj\Debug\netcoreapp3.1\KRS-Gui.AssemblyInfoInputs.cache
+H:\VSProgram\C#_Program\KRS-Gui\obj\Debug\netcoreapp3.1\KRS-Gui.AssemblyInfo.cs
+H:\VSProgram\C#_Program\KRS-Gui\obj\Debug\netcoreapp3.1\KRS-Gui.csproj.CoreCompileInputs.cache
+H:\VSProgram\C#_Program\KRS-Gui\obj\Debug\netcoreapp3.1\KRS-Gui.dll
+H:\VSProgram\C#_Program\KRS-Gui\obj\Debug\netcoreapp3.1\KRS-Gui.pdb
+H:\VSProgram\C#_Program\KRS-Gui\obj\Debug\netcoreapp3.1\KRS-Gui.genruntimeconfig.cache
+H:\VSProgram\C#_Program\KRS-Gui\obj\Debug\netcoreapp3.1\KRS-Gui.csproj.AssemblyReference.cache

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>KRS-Gui</id>
+    <version>1.0.0</version>
+    <authors>KRS-Gui</authors>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1" />
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework=".NETCoreApp3.1">
+        <frameworkReference name="Microsoft.WindowsDesktop.App.WindowsForms" />
+      </group>
+    </frameworkReferences>
+  </metadata>
+  <files>
+    <file src="H:\VSProgram\C#_Program\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.runtimeconfig.json" target="lib\netcoreapp3.1\KRS-Gui.runtimeconfig.json" />
+    <file src="H:\VSProgram\C#_Program\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.dll" target="lib\netcoreapp3.1\KRS-Gui.dll" />
+  </files>
+</package>
