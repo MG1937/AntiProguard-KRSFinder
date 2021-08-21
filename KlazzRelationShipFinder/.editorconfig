@@ -1,4 +1,0 @@
-﻿[*.cs]
-
-# IDE0051: 删除未使用的私有成员
-dotnet_diagnostic.IDE0051.severity = none
