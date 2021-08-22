@@ -1,6 +1,6 @@
 # KRSFinder
 
-**如果这个项目对您有用,请点击Start**  
+**如果这个项目对您有用,请点击Star**  
 ## 项目介绍
 该项目是一个用以对抗ProGuard混淆规则的工具  
 现有的apk基本上都被ProGuard所保护,所有类,成员,方法全部被混淆为无意义的短字母  
@@ -56,7 +56,7 @@ c = "Real_Key_Word!";
 并尽可能收集所有可以用以对抗ProGuard的信息**  
 
 这是我的第一个C#项目,断网15天,终于在今天完成了:)  
-如果您喜欢这个项目,请给我一个Start:)  
+如果您喜欢这个项目,请给我一个Star:)  
 
 This is my blog  
 https://www.cnblogs.com/aldys4/  
