@@ -25,7 +25,7 @@
 String a = "const";
 if(Some_expression()){ SomeClass.b = a; }
 ```
-![Screenshot](https://raw.githubusercontent.com/MG1937/KRSFinder/master/KRS2.png)  
+![image](https://raw.githubusercontent.com/MG1937/KRSFinder/master/KRS2.png)  
 
 ```java
 String a = SomeClass.b;
@@ -63,4 +63,4 @@ https://www.cnblogs.com/aldys4/
 
 其他项目截图如下  
 ![Screenshot](https://raw.githubusercontent.com/MG1937/KRSFinder/master/KRS.png)  
-![Screenshot](https://raw.githubusercontent.com/MG1937/KRSFinder/master/KRS1.png)  
+![image](https://github.com/MG1937/AntiProguard-KRSFinder/blob/master/KRS1.png)  
