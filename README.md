@@ -25,7 +25,7 @@
 String a = "const";
 if(Some_expression()){ SomeClass.b = a; }
 ```
-![image](https://raw.githubusercontent.com/MG1937/KRSFinder/master/KRS2.png)  
+![KRS2](https://user-images.githubusercontent.com/89259981/139191385-c51b8a03-8c3f-45ab-a027-9ecfb076fb92.png)
 
 ```java
 String a = SomeClass.b;
@@ -39,7 +39,7 @@ switch(some_key){
 }
 a = c;
 ```
-![Screenshot](https://raw.githubusercontent.com/MG1937/KRSFinder/master/KRS3.png)  
+![KRS3](https://user-images.githubusercontent.com/89259981/139191583-f4282fb7-d2ff-40af-8211-aa6ad994d818.png)
 ```java
 String a = SomeClass.b;
 String c = "useless_word";
@@ -48,7 +48,7 @@ a = c;
 c = "Real_Key_Word!";
 }while(true);
 ```
-![Screenshot](https://raw.githubusercontent.com/MG1937/KRSFinder/master/KRS4.png)  
+![KRS4](https://user-images.githubusercontent.com/89259981/139191614-c167cab3-d4ae-4ef1-ab08-3222d58bee1d.png)
 
 **是的,如这些截图所见,该项目是完全可以分析这类代码的  
 该工具会自动遍历所有可能产生的分支,  
@@ -61,6 +61,7 @@ c = "Real_Key_Word!";
 This is my blog  
 https://www.cnblogs.com/aldys4/  
 
-其他项目截图如下  
-![Screenshot](https://raw.githubusercontent.com/MG1937/KRSFinder/master/KRS.png)  
-![image](https://github.com/MG1937/AntiProguard-KRSFinder/blob/master/KRS1.png)  
+其他项目截图如下 
+![KRS](https://user-images.githubusercontent.com/89259981/139191644-6ac1ce00-4343-4a4c-8979-c95dcd2d7fb4.png)
+![KRS1](https://user-images.githubusercontent.com/89259981/139191653-ef00f37a-b299-4c43-b46d-21849e457240.png)
+
