@@ -3,9 +3,9 @@ using KlazzRelationShipFinder.KRSFinder.Handler;
 using KlazzRelationShipFinder.KRSFinder.LogPrinter;
 using KlazzRelationShipFinder.KRSFinder.MessageSaver;
 using KlazzRelationShipFinder.KRSFinder.Module.Smali;
+using KRS_Gui.KRSFinder.Handler;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace KlazzRelationShipFinder.KRSFinder.Module
 {
@@ -31,7 +31,52 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
         //记录当前方法体中的方法名
         public string method { set; get; }
 
-        public void lineAnalyse(string lineCode) {
+        //记录当前方法是否为静态方法
+        public bool isStatic { set; get; }
+
+        public List<string> polluteFuncArgReg = new List<string>();
+
+        //记录当前方法总数
+        public int funcArgs { set; get; }
+
+        /// <summary>
+        /// 根据method开头获取参数总数
+        /// </summary>
+        /// <param name="lineCode"></param>
+        /// <returns></returns>
+        public int getFuncArgNum(string lineCode)
+        {
+            int num = 0;
+            bool klazz = false;
+            string dataType = "ZBSCIJFD";
+            lineCode = lineCode.Substring(lineCode.IndexOf("(") + 1);
+            lineCode = lineCode.Substring(0, lineCode.IndexOf(")"));
+            foreach (char c in lineCode)
+            {
+                string b = c.ToString();
+                if (!klazz && dataType.Contains(b))
+                {
+                    num += 1;
+                    continue;
+                }
+                else if (!klazz && b.Equals("L"))
+                {
+                    klazz = true;
+                    continue;
+                }
+                else if (klazz && b.Equals(";"))
+                {
+                    num += 1;
+                    klazz = false;
+                    continue;
+                }
+            }
+
+            return num;
+        }
+
+        public void lineAnalyse(string lineCode)
+        {
             //opcode vx,some-dalvik-code
             int OPC = OpCode.getOpCode(lineCode);
 
@@ -50,14 +95,22 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                 //更换当前klazz值
                 klazz_name = (string)handler.lineHandler(lineCode);
 
-                if (klazz_name == null || string.IsNullOrEmpty(klazz_name)) {
+                if (klazz_name == null || string.IsNullOrEmpty(klazz_name))
+                {
                     Log.log(TAG, "klazz is null!!!");
                     throw new Exception("Klazz is null!!!\nLineCode:" + lineCode);
                 }
                 Log.log(TAG, "Analyse Smali:" + klazz_name);
                 return;
             }
-            else if (OPC == OpCode.SOURCE_OPC && string.IsNullOrEmpty(method)) {
+            else if (OPC == OpCode.FIELD_OPC_MUST && string.IsNullOrEmpty(method))
+            {
+                handler = new FieldOpCodeHandler();
+                handler.lineHandler(lineCode, this, null);
+                return;
+            }
+            else if (OPC == OpCode.SOURCE_OPC && string.IsNullOrEmpty(method))
+            {
                 /**
                  * 处理到.source操作码时代表当前的原klazz名有可能恢复
                  * 若可恢复,应存储sourceName至MessageSaver模块
@@ -66,9 +119,10 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
 
                 string source_name = (string)handler.lineHandler(lineCode);
 
-                if (source_name != null) {
+                if (source_name != null)
+                {
                     //if (!source_name.Equals(klazz_name)) {
-                        SourceNameSaver.saveSourceName(klazz_name, source_name);
+                    SourceNameSaver.saveSourceName(klazz_name, source_name);
                     //}
                 }
 
@@ -85,12 +139,16 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                 method = (string)handler.lineHandler(lineCode);
                 //开始录入方法体代码
                 recodeMethodCode = true;
+                funcArgs = getFuncArgNum(lineCode);
+                //判断静态方法
+                if (lineCode.IndexOf("static") != -1) isStatic = true;
                 return;
             }
-            else if (OPC == OpCode.METHOD_END && recodeMethodCode) {
+            else if (OPC == OpCode.METHOD_END && recodeMethodCode)
+            {
                 Log.log(TAG, method);
                 //将方法体传入分析模块
-                new MethodCodeAnalyseModule(this,methodCode).execute();
+                new MethodCodeAnalyseModule(this, methodCode).execute();
                 //方法结束时置空当前方法名成员
                 method = null;
                 //结束录入方法体代码
@@ -98,15 +156,20 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                 //方法体置空
                 methodCode = "";
                 toolJudge = false;
+                isStatic = false;
+                polluteFuncArgReg.Clear();
                 return;
             }
 
             //若录入标记为true,则开始录入方法体
-            if (recodeMethodCode) {
+            if (recodeMethodCode)
+            {
                 methodCode += lineCode + "\n";
-                if (!toolJudge&&lineCode.Trim().StartsWith(":")) {
+                if (!toolJudge && lineCode.Trim().StartsWith(":"))
+                {
                     toolJudge = true;
-                    if (lineCode.Trim().Replace(":", "").StartsWith("L")) {
+                    if (lineCode.Trim().Replace(":", "").StartsWith("L"))
+                    {
                         Config.isBakSmali = true;
                     }
                     else

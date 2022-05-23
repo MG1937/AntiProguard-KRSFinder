@@ -1,7 +1,5 @@
 ﻿using KlazzRelationShipFinder.KRSFinder.Base;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
 {
@@ -19,15 +17,18 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
 
         private object value { set; get; }
 
-        public TempRegister(object value) {
+        public TempRegister(object value)
+        {
             setValue(value);
         }
 
-        private void setType(int TYPE) {
+        private void setType(int TYPE)
+        {
             this.TYPE = TYPE;
         }
 
-        public void setValue(object value) {
+        public void setValue(object value)
+        {
             if (value is string)
             {
                 setType(TYPE_CONST_STR);
@@ -41,15 +42,18 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
                 setType(TYPE_METHOD);
             }
             this.value = value;
-        
+
         }
 
-        public object getValue() {
+        public object getValue()
+        {
             return value;
         }
 
-        public override bool Equals(object t) {
-            try {
+        public override bool Equals(object t)
+        {
+            try
+            {
                 TempRegister temp = (TempRegister)t;
                 if (temp.TYPE == this.TYPE)
                 {
@@ -61,16 +65,17 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
                     {
                         return ((Var)value).Equals(temp.value);
                     }
-                    else if (TYPE == TYPE_METHOD) 
+                    else if (TYPE == TYPE_METHOD)
                     {
                         return ((Method)value).Equals(temp.value);
                     }
                 }
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 return false;
             }
-            
+
             return false;
         }
 

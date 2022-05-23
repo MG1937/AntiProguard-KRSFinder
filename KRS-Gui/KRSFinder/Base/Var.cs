@@ -1,6 +1,6 @@
-﻿using System;
+﻿using KRS_Gui.KRSFinder.MessageSaver;
+using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace KlazzRelationShipFinder.KRSFinder.Base
 {
@@ -9,6 +9,11 @@ namespace KlazzRelationShipFinder.KRSFinder.Base
     /// </summary>
     public class Var : ICloneable
     {
+        /// <summary>
+        /// 是否为方法参数
+        /// </summary>
+        public bool isFuncArg { set; get; }
+
         /// <summary>
         /// 成员名
         /// </summary>
@@ -29,15 +34,51 @@ namespace KlazzRelationShipFinder.KRSFinder.Base
         /// </summary>
         public List<string> comments = new List<string>();
 
-        public void clearComments() {
+        public void clearComments()
+        {
             comments.Clear();
         }
 
-        public void addComment(string comment) {
+        public void addComment(string comment)
+        {
+            if (!SaverConfig.saveMembership) return;
             if (!this.comments.Contains(comment))
             {
                 this.comments.Add(comment);
             }
+        }
+
+        public void addComment_setStaticField(string value)
+        {
+            addComment(this.var_name + " = " + value);
+        }
+
+        /// <summary>
+        /// 目标变量在某方法中被传入某方法
+        /// </summary>
+        /// <param name="method">被传入方法</param>
+        /// <param name="klazz">行为所在类</param>
+        /// <param name="methodName">行为所在方法</param>
+        public void addComment_dataFlowIn(Method method, string klazz, string methodName)
+        {
+            string comment = null;
+            if (klazz.Equals(this.klazz))
+            {
+                comment = "曾在自身类的" + methodName + "方法中被传入";
+            }
+            else
+            {
+                comment = "曾在" + klazz + "#" + methodName + "方法中被传入";
+            }
+            if(method.klazz.Equals(this.klazz))
+            {
+                comment += "自身类的" + method.methodName + "方法中";
+            }
+            else
+            {
+                comment += method.klazz + "#" + method.methodName + "方法中";
+            }
+            addComment(comment);
         }
 
         /// <summary>
@@ -46,13 +87,14 @@ namespace KlazzRelationShipFinder.KRSFinder.Base
         /// <param name="var">当前成员赋值对象</param>
         /// <param name="klazz">赋值方法隶属类</param>
         /// <param name="methodName">赋值操作隶属方法</param>
-        public void addComment_setValueByVar(Var var,string klazz,string methodName) {
+        public void addComment_setValueByVar(Var var, string klazz, string methodName)
+        {
             string comment = null;
             if (klazz.Equals(this.klazz))
             {
                 comment = "曾在自身类的" + methodName + "方法中被赋予";
             }
-            else 
+            else
             {
                 comment = "曾在" + klazz + "#" + methodName + "方法中被赋予";
             }
@@ -61,7 +103,7 @@ namespace KlazzRelationShipFinder.KRSFinder.Base
             {
                 comment += "自身类的" + var.var_name + "成员";
             }
-            else 
+            else
             {
                 comment += var.klazz + "的" + var.var_name + "成员";
             }
@@ -74,13 +116,14 @@ namespace KlazzRelationShipFinder.KRSFinder.Base
         /// <param name="method"></param>
         /// <param name="klazz">赋值方法隶属类</param>
         /// <param name="methodName">赋值方法</param>
-        public void addComment_setValueByMethod(Method method, string klazz, string methodName) {
+        public void addComment_setValueByMethod(Method method, string klazz, string methodName)
+        {
             string comment = null;
             if (klazz.Equals(this.klazz))
             {
                 comment = "曾在自身类的" + methodName + "方法中";
             }
-            else 
+            else
             {
                 comment = "曾在" + klazz + "#" + methodName + "方法中";
             }
@@ -89,7 +132,7 @@ namespace KlazzRelationShipFinder.KRSFinder.Base
             {
                 comment += "被赋予自身类的" + method.methodName + "方法的返回数据";
             }
-            else 
+            else
             {
                 comment += "被赋予" + method.klazz + "#" + method.methodName + "方法的返回数据";
             }
@@ -102,13 +145,14 @@ namespace KlazzRelationShipFinder.KRSFinder.Base
         /// <param name="conststr"></param>
         /// <param name="klazz">进行赋值操作时的所在类</param>
         /// <param name="methodName">所在类的具体方法</param>
-        public void addComment_setValueByConstStr(string conststr,string klazz, string methodName) {
+        public void addComment_setValueByConstStr(string conststr, string klazz, string methodName)
+        {
             string comment = null;
             if (klazz.Equals(this.klazz))
             {
                 comment = "曾在自身类的" + methodName + "方法中被赋予常量" + conststr;
             }
-            else 
+            else
             {
                 comment = "曾在" + klazz + "#" + methodName + "方法中被赋予常量" + conststr;
             }
@@ -121,43 +165,50 @@ namespace KlazzRelationShipFinder.KRSFinder.Base
         /// <param name="local_var_name">被设置的变量名</param>
         /// <param name="klazz">方法隶属类</param>
         /// <param name="methodName">方法名</param>
-        public void addComment_beSetLocalName(string local_var_name, string klazz, string methodName) {
+        public void addComment_beSetLocalName(string local_var_name, string klazz, string methodName)
+        {
             string comment = null;
             if (klazz == this.klazz)
             {
-                comment = "曾在自身类的" + methodName + "方法中被命名为'" + local_var_name + "'的局部变量";
+                comment = "曾在自身类的" + methodName + "方法中被名为'" + local_var_name + "'的局部变量所引用";
             }
-            else 
+            else
             {
-                comment = "曾在" + klazz + "#" + methodName + "方法中被命名为'" + local_var_name + "'的局部变量";
+                comment = "曾在" + klazz + "#" + methodName + "方法中被名为'" + local_var_name + "'的局部变量所引用";
             }
             addComment(comment);
         }
 
-        public void addComment_setValue(object data,string klazz, string methodName) {
+        public void addComment_setValue(object data, string klazz, string methodName)
+        {
             if (data is Var)
             {
+                if (((Var)data).isFuncArg) return;
                 addComment_setValueByVar((Var)data, klazz, methodName);
             }
             else if (data is string)
             {
                 addComment_setValueByConstStr((string)data, klazz, methodName);
             }
-            else if (data is Method) 
+            else if (data is Method)
             {
                 addComment_setValueByMethod((Method)data, klazz, methodName);
             }
         }
 
-        public void addComments(List<string> comments) {
-            foreach (string c in comments) {
-                if (!this.comments.Contains(c)) {
+        public void addComments(List<string> comments)
+        {
+            foreach (string c in comments)
+            {
+                if (!this.comments.Contains(c))
+                {
                     this.comments.Add(c);
                 }
             }
         }
 
-        public override bool Equals(object t) {
+        public override bool Equals(object t)
+        {
             try
             {
                 Var temp = (Var)t;
@@ -173,10 +224,11 @@ namespace KlazzRelationShipFinder.KRSFinder.Base
                     return true;
                 }
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 return false;
             }
-            
+
             return false;
         }
 

@@ -1,8 +1,5 @@
 ﻿using KlazzRelationShipFinder.KRSFinder.Module;
 using KlazzRelationShipFinder.KRSFinder.Module.Smali;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace KlazzRelationShipFinder.KRSFinder.Handler

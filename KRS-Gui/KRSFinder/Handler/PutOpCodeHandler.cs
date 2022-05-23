@@ -2,9 +2,6 @@
 using KlazzRelationShipFinder.KRSFinder.MessageSaver;
 using KlazzRelationShipFinder.KRSFinder.Module;
 using KlazzRelationShipFinder.KRSFinder.Module.Smali;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KlazzRelationShipFinder.KRSFinder.Handler
 {
@@ -21,7 +18,7 @@ namespace KlazzRelationShipFinder.KRSFinder.Handler
         {
             string head = lineCode.Split(" ")[0].Trim();
 
-            string[] blocks = lineCode.Replace(head,"").Trim().Split(",");
+            string[] blocks = lineCode.Replace(head, "").Trim().Split(",");
             if (head.Contains("aput"))
             {
                 //aput vx,vy,vz
@@ -63,7 +60,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Handler
                 string register = blocks[0].Trim();
                 object reg_data = tempRegister.getRegister(register);
                 if (reg_data == null) return null;
-                if (!(reg_data is Var)&&!(reg_data is string)) return null;
+                //20220517 新增对方法赋值的支持
+                if (!(reg_data is Var) && !(reg_data is Method) && !(reg_data is string)) return null;
 
                 string data = blocks[2];
                 string klazz = Utils.getKlazz(data);
@@ -72,6 +70,13 @@ namespace KlazzRelationShipFinder.KRSFinder.Handler
                 Var var = new Var();
                 var.var_name = var_name;
                 var.klazz = klazz;
+                if (reg_data is Var && ((Var)reg_data).isFuncArg)
+                {
+                    //被覆盖寄存器为方法参数
+                    tempRegister.removeRegister(register);
+                    tempRegister.putRegister(register, new TempRegister(var));
+                    return null;
+                }
                 var.addComment_setValue(reg_data, smaliFileAnalyseModule.klazz_name, smaliFileAnalyseModule.method);
                 RelationSaver.saveVar(var);
                 return null;

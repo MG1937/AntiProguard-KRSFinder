@@ -1,9 +1,6 @@
 ﻿using KlazzRelationShipFinder.KRSFinder.Base;
 using KlazzRelationShipFinder.KRSFinder.Module;
 using KlazzRelationShipFinder.KRSFinder.Module.Smali;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace KlazzRelationShipFinder.KRSFinder.Handler
@@ -43,7 +40,7 @@ namespace KlazzRelationShipFinder.KRSFinder.Handler
                 register = blocks[0].Trim();
                 temp_var_data = blocks[2].Trim();
             }
-            else if (head.Contains("sget")) 
+            else if (head.Contains("sget"))
             {
                 //sget v0, LTest3;->is1:I
                 register = blocks[0].Trim();

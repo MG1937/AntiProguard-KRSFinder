@@ -6,7 +6,9 @@
     <authors>KRS-Gui</authors>
     <description>Package Description</description>
     <dependencies>
-      <group targetFramework=".NETCoreApp3.1" />
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers" />
+      </group>
     </dependencies>
     <frameworkReferences>
       <group targetFramework=".NETCoreApp3.1">
@@ -15,7 +17,7 @@
     </frameworkReferences>
   </metadata>
   <files>
-    <file src="H:\VSProgram\C#_Program\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.runtimeconfig.json" target="lib\netcoreapp3.1\KRS-Gui.runtimeconfig.json" />
-    <file src="H:\VSProgram\C#_Program\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.dll" target="lib\netcoreapp3.1\KRS-Gui.dll" />
+    <file src="D:\VisualStudioWorkSpace\CSharpWorkSpace\AntiProguard-KRSFinder\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.runtimeconfig.json" target="lib\netcoreapp3.1\KRS-Gui.runtimeconfig.json" />
+    <file src="D:\VisualStudioWorkSpace\CSharpWorkSpace\AntiProguard-KRSFinder\KRS-Gui\bin\Debug\netcoreapp3.1\KRS-Gui.dll" target="lib\netcoreapp3.1\KRS-Gui.dll" />
   </files>
 </package>

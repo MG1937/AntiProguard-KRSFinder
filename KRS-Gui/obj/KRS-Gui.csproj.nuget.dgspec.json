@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "H:\\VSProgram\\C#_Program\\KRS-Gui\\KRS-Gui.csproj": {}
+    "D:\\VisualStudioWorkSpace\\CSharpWorkSpace\\AntiProguard-KRSFinder\\KRS-Gui\\KRS-Gui.csproj": {}
   },
   "projects": {
-    "H:\\VSProgram\\C#_Program\\KRS-Gui\\KRS-Gui.csproj": {
+    "D:\\VisualStudioWorkSpace\\CSharpWorkSpace\\AntiProguard-KRSFinder\\KRS-Gui\\KRS-Gui.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\VSProgram\\C#_Program\\KRS-Gui\\KRS-Gui.csproj",
+        "projectUniqueName": "D:\\VisualStudioWorkSpace\\CSharpWorkSpace\\AntiProguard-KRSFinder\\KRS-Gui\\KRS-Gui.csproj",
         "projectName": "KRS-Gui",
-        "projectPath": "H:\\VSProgram\\C#_Program\\KRS-Gui\\KRS-Gui.csproj",
+        "projectPath": "D:\\VisualStudioWorkSpace\\CSharpWorkSpace\\AntiProguard-KRSFinder\\KRS-Gui\\KRS-Gui.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "H:\\VSProgram\\C#_Program\\KRS-Gui\\obj\\",
+        "outputPath": "D:\\VisualStudioWorkSpace\\CSharpWorkSpace\\AntiProguard-KRSFinder\\KRS-Gui\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "E:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -43,6 +43,12 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -61,7 +67,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

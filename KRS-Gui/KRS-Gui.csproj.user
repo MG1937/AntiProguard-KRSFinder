@@ -4,7 +4,10 @@
     <Compile Update="GuiForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="GuiForm.GuiMethod.cs">
+    <Compile Update="GuiForm.Method.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="JadxConfig.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

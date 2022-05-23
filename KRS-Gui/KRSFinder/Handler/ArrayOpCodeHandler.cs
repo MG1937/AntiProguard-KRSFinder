@@ -1,8 +1,6 @@
-﻿using KlazzRelationShipFinder.KRSFinder.Module;
+﻿using KlazzRelationShipFinder.KRSFinder.Base;
+using KlazzRelationShipFinder.KRSFinder.Module;
 using KlazzRelationShipFinder.KRSFinder.Module.Smali;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KlazzRelationShipFinder.KRSFinder.Handler
 {
@@ -19,14 +17,15 @@ namespace KlazzRelationShipFinder.KRSFinder.Handler
         {
             string head = lineCode.Split(" ")[0].Trim();
             string[] blocks = lineCode.Replace(head, "").Split(",");
-            if (head.Equals("array-length")||head.Equals("new-array"))
+            if (head.Equals("array-length") || head.Equals("new-array"))
             {
                 //array-length vx,vy
                 string register = blocks[0].Trim();
+                object value = tempRegister.getRegister(register);
+                if (value is Var && ((Var)value).isFuncArg) return null;
                 tempRegister.removeRegister(register);
                 return null;
             }
-
             return null;
         }
     }

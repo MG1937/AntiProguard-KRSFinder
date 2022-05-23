@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
 {
     /// <summary>
     /// 充当临时寄存器集
     /// </summary>
-    class TempRegisterMap : Dictionary<string,TempRegister>
+    class TempRegisterMap : Dictionary<string, TempRegister>
     {
         string TAG = "TempRegister";
 
@@ -19,7 +18,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
         /// </summary>
         /// <param name="reg">寄存器,格式如v0,p0</param>
         /// <param name="value">寄存器对应的值</param>
-        public void putRegister(string reg,TempRegister value) {
+        public void putRegister(string reg, TempRegister value)
+        {
             if (!checkRegister(reg)) return;
             this[reg] = value;
         }
@@ -28,7 +28,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
         /// 从临时寄存器集中移除指定寄存器
         /// </summary>
         /// <param name="reg">指定寄存器</param>
-        public void removeRegister(string reg) {
+        public void removeRegister(string reg)
+        {
             if (!checkRegister(reg)) return;
             Remove(reg);
         }
@@ -36,7 +37,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
         /// <summary>
         /// 从临时寄存器集中获取指定寄存器的值
         /// </summary>
-        public object getRegister(string reg) {
+        public object getRegister(string reg)
+        {
             if (!checkRegister(reg)) return null;
             TempRegister value = this.GetValueOrDefault(reg, null);
             if (value == null) return null;
@@ -48,11 +50,11 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
         /// </summary>
         /// <param name="reg"></param>
         /// <returns></returns>
-        private bool checkRegister(string reg) {
+        private bool checkRegister(string reg)
+        {
             if (reg == null || reg.Length < 2)
             {
                 throw new Exception("寄存器格式错误!");
-                return false;
             }
 
             if (reg == "result") return true;
@@ -65,23 +67,26 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
 
         public override bool Equals(object obj)
         {
-            try {
+            try
+            {
                 TempRegisterMap temp = (TempRegisterMap)obj;
                 if (this.Count == temp.Count)
                 {
                     foreach (string k in this.Keys)
                     {
-                        if (!temp[k].Equals(this[k])) {
+                        if (!temp[k].Equals(this[k]))
+                        {
                             return false;
                         }
                     }
                     return true;
                 }
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 return false;
             }
-            
+
             return false;
         }
 
@@ -90,9 +95,11 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
             return base.GetHashCode();
         }
 
-        public TempRegisterMap Clone() {
+        public TempRegisterMap Clone()
+        {
             TempRegisterMap clone = new TempRegisterMap();
-            foreach (string k in Keys) {
+            foreach (string k in Keys)
+            {
                 clone[k] = this[k];
             }
             clone.isLoop = isLoop;

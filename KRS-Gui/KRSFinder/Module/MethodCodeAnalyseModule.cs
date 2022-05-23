@@ -1,11 +1,8 @@
 ﻿using KlazzRelationShipFinder.KRSFinder.Base;
 using KlazzRelationShipFinder.KRSFinder.Handler;
-using KlazzRelationShipFinder.KRSFinder.LogPrinter;
 using KlazzRelationShipFinder.KRSFinder.Module.Smali;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace KlazzRelationShipFinder.KRSFinder.Module
@@ -22,7 +19,7 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
         //主寄存器集
         //private TempRegisterMap mainRegisterMap = new TempRegisterMap();
 
-        //分析地图,每个单次分析开始时需要将已分析路线录入此对象!!
+        //分析地图(代码流地图),每个单次分析开始时需要将已分析路线录入此对象!!
         private List<string> analysedMap = new List<string>();
 
         //记录goto操作码循环状态的目标区块
@@ -32,10 +29,11 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
         private Dictionary<string, string> methodBlocks = new Dictionary<string, string>();
 
         //储存其他区块需要使用的临时寄存器集
-        //Key:L0
+        //Key:L0 方法区块名
+        //Value Dictionary<区块对应的临时寄存器集,寄存器集对应的分析地图>
         //Dictionary<string, List<TempRegisterMap>>
-        private Dictionary<string, Dictionary<TempRegisterMap, List<string>>> tempRegisterMap = new Dictionary<string, Dictionary<TempRegisterMap, List<string>>>();
-
+        //private Dictionary<string, TempRegisterMap> tempRegisterMap = new Dictionary<string, TempRegisterMap>();
+        Dictionary<string, Dictionary<TempRegisterMap, List<string>>> tempRegisterMap = new Dictionary<string, Dictionary<TempRegisterMap, List<string>>>();
         private Dictionary<string, List<string>> registerAnalysedMap = new Dictionary<string, List<string>>();
 
         //为每个寄存器储存相应的分析地图
@@ -48,18 +46,32 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
         //goto操作码的目标区块
         private string gotoTarget = null;
 
-        public MethodCodeAnalyseModule(SmaliFileAnalyseModule smaliFileAnalyseModule, string methodCode) {
+        public MethodCodeAnalyseModule(SmaliFileAnalyseModule smaliFileAnalyseModule, string methodCode)
+        {
             this.smaliFileAnalyseModule = smaliFileAnalyseModule;
             if (Config.isBakSmali)
             {
                 methodCode = "  :TOP\n" + methodCode + "\n  :";
             }
-            else {
+            else
+            {
                 methodCode = "    :TOP\n" + methodCode + "\n    :";
             }
 
+            TempRegisterMap init = new TempRegisterMap();
+            int index = 1;
+            for (int i = (smaliFileAnalyseModule.isStatic ? 0 : 1);
+                i < smaliFileAnalyseModule.funcArgs + (smaliFileAnalyseModule.isStatic ? 0 : 1); i++)
+            {
+                Var arg = new Var();
+                arg.isFuncArg = true;
+                arg.var_name = index + "";
+                index += 1;
+                init.putRegister("p" + i, new TempRegister(arg));
+            }
+
             Dictionary<TempRegisterMap, List<string>> top = new Dictionary<TempRegisterMap, List<string>>();
-            top[new TempRegisterMap()] = analysedMap;
+            top[init] = analysedMap;
             tempRegisterMap["TOP"] = top;
 
             /**
@@ -76,18 +88,22 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
             //baksmali:^\\s{2}:(\\w{2,})\\n^\\s+\\.\\w+?-switch.*?\\n(.+?)\\n\\s{2}\\.
             string reg_str = "^\\s{2}:(\\w{2,})\\n^\\s+\\.\\w+?-switch.*?\\n(.+?)\\n\\s{2}\\.";
             if (!Config.isBakSmali) reg_str = "^\\s{4}:(\\w{2,})\n^\\s+\\.\\w+?-switch.*?\n(.+?)\\n\\s{4}\\.";
-            Regex regex = new Regex(reg_str, RegexOptions.Multiline|RegexOptions.Singleline);
+            Regex regex = new Regex(reg_str, RegexOptions.Multiline | RegexOptions.Singleline);
             Dictionary<string, string> temp_switchs = new Dictionary<string, string>();
-            foreach (Match m in regex.Matches(methodCode)) {
+            foreach (Match m in regex.Matches(methodCode))
+            {
                 temp_switchs[m.Groups[1].Value] = m.Groups[2].Value;
             }
 
-            if (temp_switchs.Count != 0) {
+            if (temp_switchs.Count != 0)
+            {
                 //提取switch内容的转跳方法区块
                 Regex block = new Regex(":(\\w+)");
-                foreach (string k in temp_switchs.Keys) {
+                foreach (string k in temp_switchs.Keys)
+                {
                     List<string> switch_block = new List<string>();
-                    foreach (Match m in block.Matches(temp_switchs[k])) {
+                    foreach (Match m in block.Matches(temp_switchs[k]))
+                    {
                         //获取每个switch内容的转跳区块
                         switch_block.Add(m.Groups[1].Value);
                     }
@@ -95,30 +111,53 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                 }
 
                 //替换所有switch分支为if分支,方便分析
-                foreach (string b in switchs.Keys) {
+                foreach (string b in switchs.Keys)
+                {
                     string if_switch = "";
-                    foreach (string goto_ in switchs[b]) {
+                    foreach (string goto_ in switchs[b])
+                    {
                         if_switch += "   if-switch ,:" + goto_ + "\n";
                     }
-                    Regex reg = new Regex("^\\s+.+switch.+:" + b,RegexOptions.Multiline);
+                    Regex reg = new Regex("^\\s+.+switch.+:" + b, RegexOptions.Multiline);
                     methodCode = reg.Replace(methodCode, if_switch);
                 }
             }
 
             //开始分割方法区块
-            string reg_str1 = "^\\s{2}:(\\w+)";
-            if(!Config.isBakSmali) reg_str1 = "^\\s{4}:(\\w+)";
-            Regex blockName = new Regex(reg_str1,RegexOptions.Multiline);
-            foreach (Match m in blockName.Matches(methodCode)) {
-                string key = m.Groups[1].Value;
-                //根据方法区块名match对应的方法区块
-                string reg_str2 = "(?:^\\s{2}:" + key + ")\\n(.+?)(?:^\\s{2}:)";
-                if (!Config.isBakSmali) reg_str2 = "(?:^\\s{4}:" + key + ")\\n(.+?)(?:^\\s{4}:)";
-                Regex methodCode_ = new Regex(reg_str2, RegexOptions.Multiline | RegexOptions.Singleline);
-                Match match = methodCode_.Match(methodCode);
-                
-                methodBlocks[key] = match.Groups[1].Value;
+            StringReader reader = new StringReader(methodCode);
+            string line = null;
+            string block_name = "";
+            string block_m = "";
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.Trim().StartsWith(":"))
+                {
+                    methodBlocks[block_name] = block_m;
+                    block_m = "";
+                    block_name = line.Trim().Replace(":", "");
+                    continue;
+                }
+                else
+                {
+                    block_m += line + "\n";
+                    continue;
+                }
             }
+
+            //string reg_str1 = "^\\s{2}:(\\w+)";
+            //if (!Config.isBakSmali) reg_str1 = "^\\s{4}:(\\w+)";
+            //Regex blockName = new Regex(reg_str1, RegexOptions.Multiline);
+            //foreach (Match m in blockName.Matches(methodCode))
+            //{
+            //    string key = m.Groups[1].Value;
+            //    //根据方法区块名match对应的方法区块
+            //    string reg_str2 = "(?:^\\s{2}:" + key + ")\\n(.+?)(?:^\\s{2}:)";
+            //    if (!Config.isBakSmali) reg_str2 = "(?:^\\s{4}:" + key + ")\\n(.+?)(?:^\\s{4}:)";
+            //    Regex methodCode_ = new Regex(reg_str2, RegexOptions.Multiline | RegexOptions.Singleline);
+            //    Match match = methodCode_.Match(methodCode);
+
+            //    methodBlocks[key] = match.Groups[1].Value;
+            //}
 
             //Log.log(TAG, "Construct Over");
         }
@@ -126,18 +165,23 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
         /// <summary>
         /// 执行器
         /// </summary>
-        public void execute() {
-            while (tempRegisterMap.Count != 0) {
+        public void execute()
+        {
+            while (tempRegisterMap.Count != 0)
+            {
                 if (forceQuit()) break;
 
                 Dictionary<string, Dictionary<TempRegisterMap, List<string>>> temp = new Dictionary<string, Dictionary<TempRegisterMap, List<string>>>(tempRegisterMap);
+                //Dictionary<string, TempRegisterMap> temp = new Dictionary<string, TempRegisterMap>(tempRegisterMap);
                 //取出临时寄存器集中保存的方法区块名
-                foreach (string k in temp.Keys) {
+                foreach (string k in temp.Keys)
+                {
                     if (forceQuit()) break;
 
                     //取出此区块名下所有保存的临时寄存器
                     Dictionary<TempRegisterMap, List<string>> tempList = new Dictionary<TempRegisterMap, List<string>>(temp[k]);
-                    foreach (TempRegisterMap registerMap in tempList.Keys) {
+                    foreach (TempRegisterMap registerMap in tempList.Keys)
+                    {
                         if (forceQuit()) break;
 
                         //在每个单次分析开始前清理一次路线对象
@@ -154,12 +198,13 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                             {
                                 if (forceQuit()) return;
                                 //若当前区块名与保持寄存器的区块名不一致
-                                //则认为当前区块不匹配当前取出的寄存器,继续查找下一个区块
+                                //则认为当前区块不匹配当前取出的寄存器集,继续查找下一个区块
                                 if (!begin && blockName.Equals(k))
                                 {
                                     begin = true;
                                 }
-                                else if(!begin && !blockName.Equals(k)) {
+                                else if (!begin && !blockName.Equals(k))
+                                {
                                     continue;
                                 }
 
@@ -167,7 +212,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                                 {
                                     //若当前已经被标记loop,且目标仍然在分析路线中
                                     //则认为单次分析已经没有必要,清理goto相关数据后直接跳出循环
-                                    if (gotoLoop && analysedMap.Contains(gotoTarget)) {
+                                    if (gotoLoop && analysedMap.Contains(gotoTarget))
+                                    {
                                         gotoLoop = false;
                                         //loopGoto.Add(gotoTarget);
                                         gotoTarget = null;
@@ -179,10 +225,12 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                                     {
                                         continue;
                                     }
-                                    else {
+                                    else
+                                    {
                                         //若在goto标记的目标区块符合当前遍历到的方法区块
                                         //并且在分析线路中已经包含该区块(该区块已经被分析过一遍)
-                                        if (!gotoLoop && analysedMap.Contains(gotoTarget)) {
+                                        if (!gotoLoop && analysedMap.Contains(gotoTarget))
+                                        {
                                             gotoLoop = true;//启用loop标记
                                         }
                                     }
@@ -199,29 +247,31 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                                 methodAnalyse(blockName, registerMap);
                             }
                         } while (gotoTarget != null && !forceQuit());//若gotoTarget不为空则表示仍然需要循环一次来寻找目标区块
-                        
+
                         //registerAnalysedMap.Remove(registerMap);
-                        
+
                         if (tempRegisterMap.ContainsKey(k) && tempRegisterMap[k].Count == 0)
                         {
                             tempRegisterMap.Remove(k);
                         }
                     }
-                    
+
                     if (tempRegisterMap.ContainsKey(k) && tempRegisterMap[k].Count == 0)
                     {
                         tempRegisterMap.Remove(k);
                     }
-                    
+
                 }
             }
+            tempRegisterMap.Clear();
         }
 
         /// <summary>
         /// 判断死循环阀值
         /// </summary>
         /// <returns></returns>
-        private bool forceQuit() {
+        private bool forceQuit()
+        {
             return forceBreak >= 1500;
         }
 
@@ -229,7 +279,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
         /// 分析指定方法区块
         /// </summary>
         /// <param name="methodBlockName"></param>
-        private void methodAnalyse(string methodBlockName,TempRegisterMap register) {
+        private void methodAnalyse(string methodBlockName, TempRegisterMap register)
+        {
             forceBreak += 1;
             /**
              * 分析期间可以直接对临时寄存器集进行操作
@@ -237,9 +288,11 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
             string methodCode = methodBlocks[methodBlockName];
 
             IBaseHandler handler;
-            using (StringReader codeReader = new StringReader(methodCode)) {
+            using (StringReader codeReader = new StringReader(methodCode))
+            {
                 string line = null;
-                while ((line = codeReader.ReadLine()) != null) {
+                while ((line = codeReader.ReadLine()) != null)
+                {
 
                     //在正式进入分析阶段前需将当前行前后空格剔除,防止在handler模块中出现错误
                     line = line.Trim();
@@ -249,7 +302,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                     if (opCode == OpCode.NOP) continue;
                     int opCode_Type = OpCode.getType(opCode);
 
-                    switch (opCode_Type) {
+                    switch (opCode_Type)
+                    {
                         case OpCode.TYPE_MUST:
                             {
                                 if (opCode == OpCode.GET_OPC_MUST)
@@ -260,7 +314,7 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                                 else if (opCode == OpCode.INVOKE_OPC_MUST)
                                 {
                                     handler = new InvokeOpCodeHandler();
-                                    handler.lineHandler(line, null, register);
+                                    handler.lineHandler(line, smaliFileAnalyseModule, register);
                                 }
                                 else if (opCode == OpCode.IF_OPC_MUST)
                                 {
@@ -270,7 +324,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                                     //若寄存器已被标记在源码层上的循环,并且目标区块已经出现在分析地图中
                                     //则不需要对该if操作码进行任何操作,直接读取下一行代码
                                     bool rewalk = analysedMap.Contains(if_target);
-                                    if (register.isLoop && rewalk) {
+                                    if (register.isLoop && rewalk)
+                                    {
                                         return;
                                     }
 
@@ -284,6 +339,14 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                                 }
                                 else if (opCode == OpCode.GOTO_OPC_MUST)
                                 {
+                                    /**
+                                     * 默认情况下认为一个方法区块仅有一个goto指令
+                                     * 因为在goto指令获得执行后,无论区块是否还有余下的操作码,都不会获得执行
+                                     * 
+                                     * bytecode-xxx vx,vy
+                                     * goto :LX
+                                     * bytecode-xxx vx,vy <-- 该行将永远不可能执行
+                                     */
                                     handler = new GotoOpCodeHandler();
                                     gotoTarget = (string)handler.lineHandler(line, null, null);
                                     //防止goto操作码导致的死循环
@@ -297,14 +360,16 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                                 else if (opCode == OpCode.CONST_OPC_MUST)
                                 {
                                     handler = new ConstOpCodeHandler();
-                                    handler.lineHandler(line, null, register);
+                                    handler.lineHandler(line, smaliFileAnalyseModule, register);
                                 }
                                 break;
                             }
-                        case OpCode.TYPE_CHECK: 
+                        case OpCode.TYPE_CHECK:
                             {
-                                foreach (string reg in register.Clone().Keys) {
-                                    if (line.Contains(reg)) {
+                                foreach (string reg in register.Clone().Keys)
+                                {
+                                    if (line.Contains(reg))
+                                    {
                                         if (opCode == OpCode.ARRAY_OPC_CHECK)
                                         {
                                             handler = new ArrayOpCodeHandler();
@@ -325,7 +390,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                                             handler = new LocalNameHandler();
                                             handler.lineHandler(line, smaliFileAnalyseModule, register);
                                         }
-                                        else if (opCode == OpCode.INSTANCE_OF_OPC_CHECK) {
+                                        else if (opCode == OpCode.INSTANCE_OF_OPC_CHECK)
+                                        {
                                             handler = new InstanceOfOpCodeHandler();
                                             handler.lineHandler(line, null, register);
                                         }
@@ -348,10 +414,10 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
                                 }
                                 break;
                             }
-                    
+
                     }
                 }
-                
+
             }
         }
     }

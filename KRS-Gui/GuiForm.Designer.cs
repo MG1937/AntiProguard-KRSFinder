@@ -37,81 +37,118 @@ namespace KRS_Gui
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.listView1 = new System.Windows.Forms.ListView();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
+            this.button1.Location = new System.Drawing.Point(15, 14);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(96, 27);
             this.button1.TabIndex = 0;
             this.button1.Text = "KRS Start";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            //
+            // button2
+            //
+            this.button2.Location = new System.Drawing.Point(115, 14);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(96, 27);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "JADX Start";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(93, 12);
+            this.textBox1.Location = new System.Drawing.Point(220, 14);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(695, 23);
+            this.textBox1.Size = new System.Drawing.Size(800, 27);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "Path";
             // 
             // treeView1
             // 
-            this.treeView1.ImageIndex = 0;
-            this.treeView1.Location = new System.Drawing.Point(2, 41);
+            this.treeView1.Location = new System.Drawing.Point(3, 48);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(4);
             this.treeView1.Name = "treeView1";
-            this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(230, 412);
+            this.treeView1.Size = new System.Drawing.Size(295, 484);
             this.treeView1.TabIndex = 2;
-            treeView1.ImageList = new System.Windows.Forms.ImageList();
-            treeView1.ImageList.Images.Add(Properties.Resources.package_obj);
-            treeView1.ImageList.Images.Add(Properties.Resources.class_obj);
-            treeView1.ImageList.Images.Add(Properties.Resources.field_public_obj);
-            treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.node_Click);
+            this.treeView1.ImageList = new System.Windows.Forms.ImageList();
+            this.treeView1.ImageList.Images.Add(Properties.Resources.package_obj);
+            this.treeView1.ImageList.Images.Add(Properties.Resources.class_obj);
+            this.treeView1.ImageList.Images.Add(Properties.Resources.field_public_obj);
+            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.node_Click);
             // 
             // richTextBox1
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.WindowText;
-            this.richTextBox1.Font = new System.Drawing.Font("微软雅黑", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            //this.richTextBox1.Font = new System.Drawing.Font("微软雅黑", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox1.ForeColor = System.Drawing.SystemColors.Window;
-            this.richTextBox1.Location = new System.Drawing.Point(238, 307);
+            this.richTextBox1.Location = new System.Drawing.Point(306, 361);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(4);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(561, 146);
+            this.richTextBox1.Size = new System.Drawing.Size(720, 143);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
             // 
             // listView1
             // 
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(238, 41);
+            this.listView1.Location = new System.Drawing.Point(306, 48);
+            this.listView1.Margin = new System.Windows.Forms.Padding(4);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(561, 260);
+            this.listView1.Size = new System.Drawing.Size(720, 305);
             this.listView1.TabIndex = 4;
             this.listView1.UseCompatibleStateImageBehavior = false;
-            listView1.Columns.Add("Comment", -2, HorizontalAlignment.Left);
-            listView1.View = View.Details;
-            listView1.FullRowSelect = true;
-            listView1.GridLines = true;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.Columns.Add("Comment", -2, HorizontalAlignment.Left);
+            this.listView1.View = View.Details;
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.BackColor = System.Drawing.SystemColors.WindowText;
+            this.richTextBox2.ForeColor = System.Drawing.SystemColors.Window;
+            this.richTextBox2.Location = new System.Drawing.Point(306, 500);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.richTextBox2.Size = new System.Drawing.Size(720, 32);
+            this.richTextBox2.TabIndex = 5;
+            this.richTextBox2.ReadOnly = true;
+            this.richTextBox2.Text = "";
             // 
             // GuiForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1033, 538);
+            this.Controls.Add(this.richTextBox2);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.button2);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1051, 585);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(1051, 585);
             this.Name = "GuiForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Text = "KRS Auth:MG193.7";
@@ -122,11 +159,13 @@ namespace KRS_Gui
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button1;//KRS-START
+        private System.Windows.Forms.Button button2;//JADX-START
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ListView listView1;
+        private RichTextBox richTextBox2;
     }
 }
 

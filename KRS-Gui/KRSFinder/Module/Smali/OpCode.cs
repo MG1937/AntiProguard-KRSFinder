@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
 {
@@ -75,6 +72,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
 
         public const int CALC_OPC_CHECK = 0x300 | TYPE_CHECK;
 
+        public const int FIELD_OPC_MUST = 0x400 | TYPE_MUST;
+
         public const int NOP = TYPE_PASS;//PASS
 
         /// <summary>
@@ -82,7 +81,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
         /// </summary>
         /// <param name="opCode"></param>
         /// <returns></returns>
-        public static int getType(int opCode) {
+        public static int getType(int opCode)
+        {
             int type = opCode & 0xf;
             return type;
         }
@@ -92,14 +92,19 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
         /// </summary>
         /// <param name="lineCode"></param>
         /// <returns></returns>
-        public static int getOpCode(string lineCode) {
+        public static int getOpCode(string lineCode)
+        {
             string opCode = lineCode.Trim().Split(" ")[0].Trim();
-            Regex regex = new Regex("^[a-z\\-\\.]+$", RegexOptions.Multiline);
+            Regex regex = new Regex("^[a-z\\-\\./]+$", RegexOptions.Multiline);
             if (!regex.Match(opCode).Success) return NOP;
 
             if (opCode.Contains("get"))
             {
                 return GET_OPC_MUST;
+            }
+            else if (opCode.Equals(".field"))
+            {
+                return FIELD_OPC_MUST;
             }
             else if (opCode.Contains("put"))
             {
@@ -172,7 +177,7 @@ namespace KlazzRelationShipFinder.KRSFinder.Module.Smali
             {
                 return CMP_OPC_CHECK;
             }
-            else if (opCode.Contains("-")) 
+            else if (opCode.Contains("-"))
             {
                 return CALC_OPC_CHECK;
             }

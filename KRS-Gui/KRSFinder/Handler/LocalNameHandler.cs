@@ -2,9 +2,6 @@
 using KlazzRelationShipFinder.KRSFinder.MessageSaver;
 using KlazzRelationShipFinder.KRSFinder.Module;
 using KlazzRelationShipFinder.KRSFinder.Module.Smali;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KlazzRelationShipFinder.KRSFinder.Handler
 {
@@ -22,7 +19,7 @@ namespace KlazzRelationShipFinder.KRSFinder.Handler
             //.local vx,"var_name":LXXX;
             string[] blocks = lineCode.Replace(".local", "").Split(",");
             string register = blocks[0].Trim();
-            string local_var_name = blocks[1].Split(":")[0].Trim().Replace("\"","");
+            string local_var_name = blocks[1].Split(":")[0].Trim().Replace("\"", "");
 
             //获取成员对象
             object var = tempRegister.getRegister(register);

@@ -17,8 +17,10 @@ namespace KlazzRelationShipFinder.KRSFinder.MessageSaver
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static void saveSourceName(string origName, string sourceName) {
-            if (origName == null || sourceName == null) {
+        public static void saveSourceName(string origName, string sourceName)
+        {
+            if (origName == null || sourceName == null)
+            {
                 return;
             }
 
@@ -32,7 +34,8 @@ namespace KlazzRelationShipFinder.KRSFinder.MessageSaver
         /// 获取指定sourceName出现过的次数
         /// </summary>
         /// <returns></returns>
-        public static int getSourceNameSum(string sourceName) {
+        public static int getSourceNameSum(string sourceName)
+        {
             if (sourceName == null) return 0;
 
             return sourceNameSum.GetValueOrDefault(sourceName, 0);
@@ -42,7 +45,8 @@ namespace KlazzRelationShipFinder.KRSFinder.MessageSaver
         /// 根据origName获取sourceName
         /// </summary>
         /// <returns></returns>
-        public static string getSourceName(string origName) {
+        public static string getSourceName(string origName)
+        {
             if (origName == null) return null;
 
             return sourceNameMap.GetValueOrDefault(origName, null);

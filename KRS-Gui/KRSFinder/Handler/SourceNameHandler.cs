@@ -1,8 +1,6 @@
 ﻿using KlazzRelationShipFinder.KRSFinder.Module;
 using KlazzRelationShipFinder.KRSFinder.Module.Smali;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace KlazzRelationShipFinder.KRSFinder.Handler
 {
@@ -34,7 +32,8 @@ namespace KlazzRelationShipFinder.KRSFinder.Handler
 
                 if (sourceName != null && !string.IsNullOrEmpty(sourceName)) return sourceName;
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 return null;
             }
             return null;
