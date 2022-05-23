@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 namespace KRS_Gui
@@ -26,7 +21,7 @@ namespace KRS_Gui
                 return;
             }
 
-            StreamWriter writer = new StreamWriter(new FileStream("./jadxPath.txt",FileMode.Create));
+            StreamWriter writer = new StreamWriter(new FileStream("./jadxPath.txt", FileMode.Create));
             writer.Write(jadxPath.Text.ToString());
             writer.Close();
 

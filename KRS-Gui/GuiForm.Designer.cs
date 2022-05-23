@@ -76,7 +76,7 @@ namespace KRS_Gui
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(800, 27);
             this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "APK Path/Smali Path";
+            this.textBox1.Text = "Path";
             // 
             // treeView1
             // 

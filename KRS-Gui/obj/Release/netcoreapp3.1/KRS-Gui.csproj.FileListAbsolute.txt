@@ -18,4 +18,3 @@ D:\VisualStudioWorkSpace\CSharpWorkSpace\AntiProguard-KRSFinder\KRS-Gui\obj\Rele
 D:\VisualStudioWorkSpace\CSharpWorkSpace\AntiProguard-KRSFinder\KRS-Gui\obj\Release\netcoreapp3.1\KRS-Gui.genruntimeconfig.cache
 D:\VisualStudioWorkSpace\CSharpWorkSpace\AntiProguard-KRSFinder\KRS-Gui\obj\Release\netcoreapp3.1\KRS-Gui.csproj.AssemblyReference.cache
 D:\VisualStudioWorkSpace\CSharpWorkSpace\AntiProguard-KRSFinder\KRS-Gui\bin\Release\netcoreapp3.1\AgentPlug.jar
-D:\VisualStudioWorkSpace\CSharpWorkSpace\AntiProguard-KRSFinder\KRS-Gui\obj\Release\netcoreapp3.1\KRS_Gui.JadxConfig.resources
