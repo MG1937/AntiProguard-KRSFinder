@@ -57,9 +57,9 @@ namespace KRS_Gui
             this.button1.Text = "KRS Start";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            //
+            // 
             // button2
-            //
+            // 
             this.button2.Location = new System.Drawing.Point(115, 14);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
@@ -76,16 +76,15 @@ namespace KRS_Gui
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(800, 27);
             this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "Path";
+            this.textBox1.Text = "APK Path/Smali Path";
             // 
             // treeView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(3, 48);
+            this.treeView1.Location = new System.Drawing.Point(3, 78);
             this.treeView1.Margin = new System.Windows.Forms.Padding(4);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(295, 484);
+            this.treeView1.Size = new System.Drawing.Size(295, 494);
             this.treeView1.TabIndex = 2;
-            this.treeView1.ImageList = new System.Windows.Forms.ImageList();
             this.treeView1.ImageList.Images.Add(Properties.Resources.package_obj);
             this.treeView1.ImageList.Images.Add(Properties.Resources.class_obj);
             this.treeView1.ImageList.Images.Add(Properties.Resources.field_public_obj);
@@ -94,7 +93,6 @@ namespace KRS_Gui
             // richTextBox1
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.WindowText;
-            //this.richTextBox1.Font = new System.Drawing.Font("微软雅黑", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBox1.ForeColor = System.Drawing.SystemColors.Window;
             this.richTextBox1.Location = new System.Drawing.Point(306, 361);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(4);
@@ -109,17 +107,13 @@ namespace KRS_Gui
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(306, 48);
+            this.listView1.Location = new System.Drawing.Point(306, 78);
             this.listView1.Margin = new System.Windows.Forms.Padding(4);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(720, 305);
+            this.listView1.Size = new System.Drawing.Size(730, 275);
             this.listView1.TabIndex = 4;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.Columns.Add("Comment", -2, HorizontalAlignment.Left);
-            this.listView1.View = View.Details;
-            this.listView1.FullRowSelect = true;
-            this.listView1.GridLines = true;
             // 
             // richTextBox2
             // 
@@ -127,10 +121,10 @@ namespace KRS_Gui
             this.richTextBox2.ForeColor = System.Drawing.SystemColors.Window;
             this.richTextBox2.Location = new System.Drawing.Point(306, 500);
             this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.ReadOnly = true;
             this.richTextBox2.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
             this.richTextBox2.Size = new System.Drawing.Size(720, 32);
             this.richTextBox2.TabIndex = 5;
-            this.richTextBox2.ReadOnly = true;
             this.richTextBox2.Text = "";
             // 
             // gainMemRelationShip
