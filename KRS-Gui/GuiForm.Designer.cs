@@ -85,6 +85,7 @@ namespace KRS_Gui
             this.treeView1.Name = "treeView1";
             this.treeView1.Size = new System.Drawing.Size(295, 494);
             this.treeView1.TabIndex = 2;
+            this.treeView1.ImageList = new System.Windows.Forms.ImageList();
             this.treeView1.ImageList.Images.Add(Properties.Resources.package_obj);
             this.treeView1.ImageList.Images.Add(Properties.Resources.class_obj);
             this.treeView1.ImageList.Images.Add(Properties.Resources.field_public_obj);
