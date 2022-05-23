@@ -2,6 +2,7 @@
 using KlazzRelationShipFinder.KRSFinder.Base;
 using KlazzRelationShipFinder.KRSFinder.LogPrinter;
 using KlazzRelationShipFinder.KRSFinder.MessageSaver;
+using KRS_Gui.KRSFinder.MessageSaver;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -62,6 +63,7 @@ namespace KRS_Gui
 
         void button1_Click(object sender, EventArgs e)
         {
+            SaverConfig.saveMembership = gainMemRelationShip.Checked;
             button1.Enabled = false;
             new Thread(() =>
             {

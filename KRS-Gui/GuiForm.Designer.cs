@@ -44,6 +44,7 @@ namespace KRS_Gui
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.gainMemRelationShip = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
@@ -132,6 +133,16 @@ namespace KRS_Gui
             this.richTextBox2.ReadOnly = true;
             this.richTextBox2.Text = "";
             // 
+            // gainMemRelationShip
+            // 
+            this.gainMemRelationShip.AutoSize = true;
+            this.gainMemRelationShip.Location = new System.Drawing.Point(15, 48);
+            this.gainMemRelationShip.Name = "gainMemRelationShip";
+            this.gainMemRelationShip.Size = new System.Drawing.Size(191, 24);
+            this.gainMemRelationShip.TabIndex = 6;
+            this.gainMemRelationShip.Text = "获取成员间关系(不推荐)";
+            this.gainMemRelationShip.UseVisualStyleBackColor = true;
+            // 
             // GuiForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -144,6 +155,7 @@ namespace KRS_Gui
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button2);
+            this.Controls.Add(this.gainMemRelationShip);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1051, 585);
@@ -165,6 +177,7 @@ namespace KRS_Gui
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.CheckBox gainMemRelationShip;
         private RichTextBox richTextBox2;
     }
 }
