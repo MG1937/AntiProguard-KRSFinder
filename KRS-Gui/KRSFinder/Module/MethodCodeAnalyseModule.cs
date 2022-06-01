@@ -155,7 +155,6 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
             //    if (!Config.isBakSmali) reg_str2 = "(?:^\\s{4}:" + key + ")\\n(.+?)(?:^\\s{4}:)";
             //    Regex methodCode_ = new Regex(reg_str2, RegexOptions.Multiline | RegexOptions.Singleline);
             //    Match match = methodCode_.Match(methodCode);
-
             //    methodBlocks[key] = match.Groups[1].Value;
             //}
 
@@ -272,7 +271,7 @@ namespace KlazzRelationShipFinder.KRSFinder.Module
         /// <returns></returns>
         private bool forceQuit()
         {
-            return forceBreak >= 1500;
+            return forceBreak >= 30;
         }
 
         /// <summary>

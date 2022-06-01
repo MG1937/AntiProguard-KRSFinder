@@ -5,7 +5,9 @@
 该项目是一个用以对抗ProGuard混淆规则的工具  
 现有的apk基本上都被ProGuard所保护,所有类,成员,方法全部被混淆为无意义的短字母  
 该项目可以通过提取在smali层残留下来的信息用以帮助逆向人员对抗这类混淆  
-**目前该项目已利用JavaAgent技术实现与JADX联动**
+**目前该项目已利用JavaAgent技术实现与JADX联动**   
+
+**关于本项目的更多细节:https://www.cnblogs.com/aldys4/p/16325580.html**
 
 * 那些信息?
   * 提取被混淆的原类名 `.source "XXX.java"`
